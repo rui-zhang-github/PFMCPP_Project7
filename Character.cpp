@@ -86,19 +86,27 @@ int Character::takeDamage(int damage)
     return hitPoints;
 }
 
+void Character::boostStats(int current, int initial)
+{
+    if( current < initial) { current = initial; }
+    current *= 1.1;
+    initial = current;
+    
+}
 
-#include <cassert>
 void Character::attackInternal(Character& other)
 {
     if( other.hitPoints <= 0 )
-    {
+    {   
         /*
         When you defeat another Character: 
             a) your stats are restored to their initial value if they are lower than it.
             b) your stats are boosted 10%
             c) the initial value of your stats is updated to reflect this boosted stat for the next time you defeat another character.
       */
-        assert(false);
+        boostStats(hitPoints, *initialHitPoints);
+        boostStats(armor, *initialArmorLevel);
+        boostStats(attackDamage, *initialAttackDamage);
         std::cout << getName() << " defeated " << other.getName() << " and leveled up!" << std::endl;        
     }
 }
@@ -106,9 +114,9 @@ void Character::attackInternal(Character& other)
 void Character::printStats()
 {
     std::cout << getName() << "'s stats: " << std::endl;
-    assert(false);
     /*
-    make your getStats() use a function from the Utility.h
+    make your getStats() use a function from the Utility.h -- 
+    this is implemented in individual character.cpp files
     */
     std::cout << getStats(); 
     
